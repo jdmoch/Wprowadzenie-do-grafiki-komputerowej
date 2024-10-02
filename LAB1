@@ -1,1 +1,127 @@
 KOLOKWIUM 16 PAZDZIERNIKA
+
+SKRYPT
+
+clear
+clear all
+clc
+
+abc = 123;
+vv = 1:10
+
+abc = 456
+abc = 99;
+
+clear; clc
+
+tab=11:13
+
+for zm = tab
+  disp(" iteracja");
+  disp (zm)
+  end;
+
+  clc;
+  mac = [1 2 3; 4 5 6];
+  
+ for zm = mac
+   disp(" iteracja");
+   disp (zm)
+end;
+
+clc;
+tab= (11:13)'
+
+for zm = 1:10
+   disp(" iteracja");
+   disp (zm)
+end;
+
+
+KONSOLA
+
+>> (tab>15)
+ans =
+
+  0  0  0  0  0  1  1  1  1  1
+
+>> tab(tab>15)
+ans =
+
+   16   17   18   19   20
+
+>> tab(tab>15) = 15.5
+tab =
+
+   11.000   12.000   13.000   14.000   15.000   15.500   15.500   15.500   15.500   15.500
+
+>> tab
+tab =
+
+ Columns 1 through 6:
+
+   11.000   12.000   13.000   14.000   15.000   15.500
+
+ Columns 7 through 10:
+
+   15.500   15.500   15.500   15.500
+
+>> a = [ 1 2 3 ... 4 5 6 ]
+a
+;
+]
+error: 'a' undefined near line 2, column 2
+>> a = [1 2 3 ...
+4 5 6
+]
+a =
+
+   1   2   3   4   5   6
+
+>> tab(end+1) = 99
+tab =
+
+   11.000   12.000   13.000   14.000   15.000   15.500   15.500   15.500   15.500   15.500   99.000
+
+>> clear tab
+>> tab
+error: 'tab' undefined near line 1, column 1
+>> mac = [ 1 2 3; 4 5 6]
+mac =
+
+   1   2   3
+   4   5   6
+
+>> tab=[11:20]
+tab =
+
+   11   12   13   14   15   16   17   18   19   20
+
+>> mac ; mac
+mac =
+
+   1   2   3
+   4   5   6
+
+>> [mac;mac]
+ans =
+
+   1   2   3
+   4   5   6
+   1   2   3
+   4   5   6
+
+>> [mac mac]
+ans =
+
+   1   2   3   1   2   3
+   4   5   6   4   5   6
+
+>> mac
+mac =
+
+   1   2   3
+   4   5   6
+
+>> mac (2,1)
+ans = 4
