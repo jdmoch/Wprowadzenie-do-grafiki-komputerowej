@@ -44,4 +44,22 @@ matrix = [1:2:41; 2.1:0.1:4.1]';
 vector = [1; 1000];
 wynik = matrix * vector
 
+zADANIE Za pomocą odwracania macierzy wylicz wartość układu równań
+
+% Definiowanie macierzy A i wektora b
+A = [3 1; -1 1];
+b = [31; -9];
+
+% Obliczanie odwrotności macierzy A
+A_inv = inv(A);
+
+% Obliczanie wartości x
+x = A_inv * b;
+
+% Wyświetlanie wyników
+disp('Wyniki:');
+disp(['x1 = ' num2str(x(1))]);
+disp(['x2 = ' num2str(x(2))]);
+
+
 
