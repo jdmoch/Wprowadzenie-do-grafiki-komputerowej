@@ -1,0 +1,26 @@
+Zadanie. Stwórz wektor o wartościach 1, 0.9, 0.8 … -0.9
+
+vector1 = 1:-0.1:-0.9;
+
+Zadanie. Stwórz macierz o poniższej zawartości, pisząc 1 linię kodu:
+1	2.1
+4	2.0
+..	
+40	0.8
+
+matrix = [reshape(1:40, [], 1), linspace(2.1, 0.8, 40)'];
+
+Zadanie. W poniższej macierzy pomnóż wiersze kolejno przez 1, 100, 10 za pomocą jednego polecenia.  
+Macierz wejściowa:	Wynik:
+1	2	3
+4	5	6
+7	8	9
+	1	2	3
+400	500	600
+70	80	90
+
+matrix = [1 2 3; 4 5 6; 7 8 9].* [1; 100; 10];
+
+Zadanie. W poniższej macierzy pomnóż kolumny kolejno przez 1, 0.1, 10 za pomocą jednego polecenia.  
+
+matrix= [1 2 3;4 5 6;7 8 9].*[1,0.1,10]
