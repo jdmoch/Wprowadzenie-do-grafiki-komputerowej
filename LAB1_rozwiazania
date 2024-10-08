@@ -46,20 +46,91 @@ wynik = matrix * vector
 
 zADANIE.7 Za pomocą odwracania macierzy wylicz wartość układu równań
 
-% Definiowanie macierzy A i wektora b
-A = [3 1; -1 1];
-b = [31; -9];
+A = [3 1;-1 1]
+B = [31; -9]
+X = A^-1 * B
 
-% Obliczanie odwrotności macierzy A
-A_inv = inv(A);
+albo
 
-% Obliczanie wartości x
-x = A_inv * b;
+X = [3 1;-1 1]^-1 * [31;-9]
 
-% Wyświetlanie wyników
-disp('Wyniki:');
-disp(['x1 = ' num2str(x(1))]);
-disp(['x2 = ' num2str(x(2))]);
+Zadanie.8 Dla poniższej macierzy pokaż wartości wszystkich kolumn zaczynając, a wiersza zaczynając  od przedostatniego i kończąc na pierwszym.
+Macierz wejściowa:	Wynik:
+1	2	3	4	5	6	
+4	5	6	1	2	3
+7	8	9
+
+
+
+result = [mac(end-1, :); mac(1, :); mac(end, :)]
+
+Zadanie.9 W poniższej macierzy powiększ wartości pomiędzy 2 i 5 o 10 z pomocą jednej linii kodu.
+Macierz wejściowa:	Wynik:
+1	2	3
+4	5	6
+7	8	9
+			1	2	13
+			14	5	6
+			7	8	9
+
+
+
+mac = [1,2,3;4,5,6;7,8,9]
+mac(1,3) = mac(1,3)+10; mac(2,1) = mac(2,1)+10
+
+Zadanie.10 Proszę stworzyć macierz widoczną poniżej, następnie w każdej kolumnie osobno pomniejszyć wartości o średnią wartość w tej kolumnie.
+Macierz wejściowa:	Wynik:
+1	2	3
+4	5	4
+7	8	5
+			-3	-3	-1
+			0	0	0
+			3	3	1
+
+mac = [1,2,3;4,5,4;7,8,5]
+avg = mean(mac)
+mac - avg
+
+Zadanie 11. Stwórz ręcznie macierz widoczną poniżej, następnie pobierz wielkość macierzy poniżej, później stwórz macierz o tej samej wartości wypełnioną wartościami losowymi z przedziału  [-1;+1].
+Macierz wejściowa:	Przykładowy wynik:
+1	2	3
+4	5	4
+			-0.393	0.421	0.831
+			0.315	-0.790	-0.013
+
+mac = [1,2,3;4,5,4]
+[rows,cols] = size(mac)
+B =-1 + 2*rand(rows,cols)
+
+Zadanie 12. Proszę stworzyć macierz o rozmiarze  4x3 wypełnioną losowymi wartościami całkowitymi z przedziału [0; 5], a następnie proszę za pomocą podwójnej pętli przeiterować każdy wiersz osobno od strony lewej po prawą i sprawić, by kolumny od drugiej do ostatniej były powiększone o wartość po ich lewej stronie (suma z kumulacją). Przydatne funkcje to rand, round, ceil, floor. Na przykład:
+
+A= randi([0,5],4,3)
+for i = 1:size(A, 1)  % Iteracja przez wiersze
+    for j = 2:size(A, 2)  % Iteracja przez kolumny, zaczynając od drugiej
+        A(i, j) = A(i, j) + A(i, j-1);  % Powiększenie o wartość z kolumny po lewej
+    end
+end
+
+Zadanie 13. Proszę stworzyć macierz o rozmiarze 3x4 wypełnioną losowymi wartościami całkowitymi z przedziału [0; 5], a następnie proszę za pomocą podwójnej pętli i polecenia if wyzerować wartości większe niż 3. Na przykład:
+
+A= randi([0,5],3,4)
+for i = 1:size(A, 1)
+    for j = 1:size(A, 2)
+        if A(i, j) > 3 
+            A(i, j) = 0; 
+        end
+    end
+end
+A
+
+
+
+
+
+
+
+
+
 
 
 
