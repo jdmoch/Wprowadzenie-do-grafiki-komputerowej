@@ -1,16 +1,16 @@
-Zadanie. Stwórz wektor o wartościach 1, 0.9, 0.8 … -0.9
+Zadanie.1 Stwórz wektor o wartościach 1, 0.9, 0.8 … -0.9
 
-vector1 = 1:-0.1:-0.9;
+A = [1:3:40; 2.1:-0.1:0.8]'
 
-Zadanie. Stwórz macierz o poniższej zawartości, pisząc 1 linię kodu:
+Zadanie.2 Stwórz macierz o poniższej zawartości, pisząc 1 linię kodu:
 1	2.1
 4	2.0
 ..	
 40	0.8
 
-matrix = [reshape(1:40, [], 1), linspace(2.1, 0.8, 40)'];
+A = [1:3:40; 2.1:-0.1:0.8]'
 
-Zadanie. W poniższej macierzy pomnóż wiersze kolejno przez 1, 100, 10 za pomocą jednego polecenia.  
+Zadanie.3 W poniższej macierzy pomnóż wiersze kolejno przez 1, 100, 10 za pomocą jednego polecenia.  
 Macierz wejściowa:	Wynik:
 1	2	3
 4	5	6
@@ -21,16 +21,16 @@ Macierz wejściowa:	Wynik:
 
 matrix = [1 2 3; 4 5 6; 7 8 9].* [1; 100; 10];
 
-Zadanie. W poniższej macierzy pomnóż kolumny kolejno przez 1, 0.1, 10 za pomocą jednego polecenia.  
+Zadanie.4 W poniższej macierzy pomnóż kolumny kolejno przez 1, 0.1, 10 za pomocą jednego polecenia.  
 
 matrix= [1 2 3;4 5 6;7 8 9].*[1,0.1,10]
 
-Zadanie. Stwórz wektor o wartościach 11, 12 .. 20 i wskaż czy kolejne elementy w tym wektorze są jednocześnie większe niż 15 i mniejsze lub równe 18. Wynik powinien wynosić 0, 0, 0, 0, 0, 1, 1, 1, 0, 0.  
+Zadanie.5 Stwórz wektor o wartościach 11, 12 .. 20 i wskaż czy kolejne elementy w tym wektorze są jednocześnie większe niż 15 i mniejsze lub równe 18. Wynik powinien wynosić 0, 0, 0, 0, 0, 1, 1, 1, 0, 0.  
 
 vector = 11:20;
 >> result = (vector > 15) & (vector <= 18);
 
-Zadanie .Sprawdź wynik mnożenia poniżej macierzy przez poniższy wektor transponowany („pionowy”)
+Zadanie.6 Sprawdź wynik mnożenia poniżej macierzy przez poniższy wektor transponowany („pionowy”)
 Macierz
 1	2.1
 3	2.2
@@ -44,7 +44,7 @@ matrix = [1:2:41; 2.1:0.1:4.1]';
 vector = [1; 1000];
 wynik = matrix * vector
 
-zADANIE Za pomocą odwracania macierzy wylicz wartość układu równań
+zADANIE.7 Za pomocą odwracania macierzy wylicz wartość układu równań
 
 % Definiowanie macierzy A i wektora b
 A = [3 1; -1 1];
