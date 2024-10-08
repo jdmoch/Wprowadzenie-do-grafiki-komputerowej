@@ -123,6 +123,39 @@ for i = 1:size(A, 1)
 end
 A
 
+Zadanie14. Proszę wyświetlić na jednym wykresie funkcje: abs(sin(x)) i atan(x) dla x mieszczącego się w przedziale (-pi; pi). Należy odpowiednio opisać osie OX i OY oraz dodać opis (legendę) dla obu funkcji oraz tytuł dla całego wykresu.
+x = linspace(-pi, pi, 100);
+y1 = abs(sin(x));
+y2 = atan(x);
+
+figure;
+plot(x, y1, 'b', 'DisplayName', 'abs(sin(x))');
+hold on;
+plot(x, y2, 'r', 'DisplayName', 'atan(x)'); 
+
+xlabel('x');
+ylabel('y');
+title('Wykres funkcji abs(sin(x)) i atan(x)');
+legend show;
+hold off;
+
+zad15 1. Proszę stworzyć macierz zawierającą obrazek „rzeczka.jpg”, następnie zmienić kolor kolumn pikseli od 10 do 50 na żółte, później wyświetlić tak powstały obrazek.
+obrazek = imread('rzeczka.jpg');
+obrazek(:, 10:50, 1) = 255;
+obrazek(:, 10:50, 2) = 255;
+obrazek(:, 10:50, 3) = 0;
+imshow(obrazek);
+
+zad15 2. Proszę stworzyć macierz zawierającą po lewej stronie obrazek „rzeczka.jpg”, a po prawej jego lustrzane odbicie. Proszę nie używać subplot i flip.
+obrazek2 = imread('rzeczka.jpg');
+lustro = obrazek2(:,end:-1:1,:);
+wynik = [obrazek2,lustro];
+imshow(wynik)
+
+zad15 Proszę stworzyć negatyw obrazka „rzeczka”, powinien on wyglądać tak, jak poniżej. Negatyw polega na zamianie wartości 0,1..255 na 255,254..0.
+obrazek3 = imread('rzeczka.jpg');
+negatyw = 255 - obrazek3;
+imshow(negatyw)
 
 
 
