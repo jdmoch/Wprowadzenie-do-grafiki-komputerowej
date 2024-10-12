@@ -1,6 +1,6 @@
 Zadanie.1 Stwórz wektor o wartościach 1, 0.9, 0.8 … -0.9
 
-A = [1:3:40; 2.1:-0.1:0.8]'
+vector = [1:-0.1:-0.9];
 
 Zadanie.2 Stwórz macierz o poniższej zawartości, pisząc 1 linię kodu:
 1	2.1
