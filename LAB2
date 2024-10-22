@@ -1,9 +1,0 @@
-rand - od 0 do 1
-liczba losowa od 10 100 --> rand*110 - 10
-round - zaokraglenie
-ceil - sufit
-floor - podloga
-czyli do najblizszsej zaokraglenie 
-plot([sin(0:0.1:2*pi)]);
-orb(:,round(end/2):end,:)= 0; -> prawa strona obrazka czarna
-orb(end,1,:) -> skladowe kolorów (z rogu obrazka?)
