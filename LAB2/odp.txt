@@ -1,0 +1,188 @@
+rand - od 0 do 1
+liczba losowa od 10 100 --> rand*110 - 10
+round - zaokraglenie
+ceil - sufit
+floor - podloga
+czyli do najblizszsej zaokraglenie 
+plot([sin(0:0.1:2*pi)]);
+orb(:,round(end/2):end,:)= 0; -> prawa strona obrazka czarna
+orb(end,1,:) -> skladowe kolorów (z rogu obrazka?)
+
+%zad1
+img = imread('plaza1.png');
+red_channel = img(:,:,1);
+blue_channel = img(:,:,3);
+img(:,:,1) = blue_channel;
+img(:,:,3) = red_channel;
+imshow(img);
+
+%zad2
+img = imread('plaza1.png');
+
+all_pixels = reshape(img, [], 1);
+red_channel = reshape(img(:,:,1), [], 1);
+green_channel = reshape(img(:,:,2), [], 1);
+blue_channel = reshape(img(:,:,3), [], 1);
+
+figure;
+subplot(2, 2, 1);
+hist(all_pixels, 100);
+title('R+G+B');
+
+subplot(2, 2, 2);
+hist(red_channel, 100);
+title('R');
+
+subplot(2, 2, 3);
+hist(green_channel, 100);
+title('G');
+
+subplot(2, 2, 4);
+hist(blue_channel, 100);
+title('B');
+
+%zad3
+img = imread('plaza1.png');
+
+img_double = double(img);
+
+we_min = min(img_double(:));
+we_max = max(img_double(:));
+
+img_scaled = (img_double - we_min) * 255 / (we_max - we_min);
+
+img_scaled = uint8(img_scaled);
+
+figure;
+subplot(1, 2, 1);
+imshow(img);
+title('org');
+
+subplot(1, 2, 2);
+imshow(img_scaled);
+title('zmieniony');
+
+
+all_pixels_scaled = reshape(img_scaled, [], 1);
+red_channel_scaled = reshape(img_scaled(:,:,1), [], 1);
+green_channel_scaled = reshape(img_scaled(:,:,2), [], 1);
+blue_channel_scaled = reshape(img_scaled(:,:,3), [], 1);
+
+figure;
+
+subplot(2, 2, 1);
+hist(all_pixels_scaled, 100);
+title('R+G+B');
+
+subplot(2, 2, 2);
+hist(red_channel_scaled, 100);
+title('R');
+
+subplot(2, 2, 3);
+hist(green_channel_scaled, 100);
+title('G');
+
+subplot(2, 2, 4);
+hist(blue_channel_scaled, 100);
+title('B');
+
+%zad4
+img = imread('plaza1.png');
+img_double = double(img);
+
+red_channel = img_double(:,:,1);
+red_min = min(red_channel(:));
+red_max = max(red_channel(:));
+red_scaled = (red_channel - red_min) * 255 / (red_max - red_min);
+
+green_channel = img_double(:,:,2);
+green_min = min(green_channel(:));
+green_max = max(green_channel(:));
+green_scaled = (green_channel - green_min) * 255 / (green_max - green_min);
+
+blue_channel = img_double(:,:,3);
+blue_min = min(blue_channel(:));
+blue_max = max(blue_channel(:));
+blue_scaled = (blue_channel - blue_min) * 255 / (blue_max - blue_min);
+
+img_scaled = cat(3, uint8(red_scaled), uint8(green_scaled), uint8(blue_scaled));
+
+figure;
+subplot(1, 2, 1);
+imshow(img);
+title('org');
+
+subplot(1, 2, 2);
+imshow(img_scaled);
+title('zmieniony');
+
+all_pixels_scaled = reshape(img_scaled, [], 1);
+red_channel_scaled = reshape(img_scaled(:,:,1), [], 1);
+green_channel_scaled = reshape(img_scaled(:,:,2), [], 1);
+blue_channel_scaled = reshape(img_scaled(:,:,3), [], 1);
+
+figure;
+subplot(2, 2, 1);
+hist(all_pixels_scaled, 100);
+title('R+G+B');
+
+subplot(2, 2, 2);
+hist(red_channel_scaled, 100);
+title('R)');
+
+subplot(2, 2, 3);
+hist(green_channel_scaled, 100);
+title('G');
+
+subplot(2, 2, 4);
+hist(blue_channel_scaled, 100);
+title('B');
+
+%zad5
+img = imread('plaza1.png');
+img_double = double(img);
+all_pixels = img_double(:);
+
+sorted_pixels = sort(all_pixels);
+
+n_pixels = numel(sorted_pixels);
+we_min_prime = sorted_pixels(round(0.10 * n_pixels));
+we_max_prime = sorted_pixels(round(0.90 * n_pixels));
+
+img_scaled = (img_double - we_min_prime) * 255 / (we_max_prime - we_min_prime);
+
+img_scaled(img_scaled < 0) = 0;
+img_scaled(img_scaled > 255) = 255;
+
+img_scaled = uint8(img_scaled);
+
+figure;
+subplot(1, 2, 1);
+imshow(img);
+title('org');
+
+subplot(1, 2, 2);
+imshow(img_scaled);
+title('zmieniony');
+
+all_pixels_scaled = reshape(img_scaled, [], 1);
+red_channel_scaled = reshape(img_scaled(:,:,1), [], 1);
+green_channel_scaled = reshape(img_scaled(:,:,2), [], 1);
+blue_channel_scaled = reshape(img_scaled(:,:,3), [], 1);
+
+figure;
+subplot(2, 2, 1);
+hist(all_pixels_scaled, 100);
+title('R+G+B');
+
+subplot(2, 2, 2);
+hist(red_channel_scaled, 100);
+title('R');
+
+subplot(2, 2, 3);
+hist(green_channel_scaled, 100);
+title('G');
+
+subplot(2, 2, 4);
+hist(blue_channel_scaled, 100);
+title('B');
