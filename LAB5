@@ -1,0 +1,333 @@
+%zad1
+img = imread('rzeczka.jpg'); 
+R = double(img(:,:,1)) / 255;
+G = double(img(:,:,2)) / 255;
+B = double(img(:,:,3)) / 255;
+
+MaxRGB = max(max(R, G), B);
+MinRGB = min(min(R, G), B);
+Chroma = MaxRGB - MinRGB;
+
+
+H = zeros(size(R));
+for i = 1:size(R, 1)
+    for j = 1:size(R, 2)
+        if Chroma(i, j) <= 0.001
+            H(i, j) = 0;
+        elseif MaxRGB(i, j) == R(i, j)
+            H(i, j) = mod((G(i, j) - B(i, j)) / Chroma(i, j), 6);
+        elseif MaxRGB(i, j) == G(i, j)
+            H(i, j) = (B(i, j) - R(i, j)) / Chroma(i, j) + 2;
+        elseif MaxRGB(i, j) == B(i, j)
+            H(i, j) = (R(i, j) - G(i, j)) / Chroma(i, j) + 4;
+        end
+    end
+end
+H = H * 60; 
+
+L = (MaxRGB + MinRGB) / 2;
+
+S = zeros(size(R));
+for i = 1:size(R, 1)
+    for j = 1:size(R, 2)
+        if L(i, j) <= 0.001 || L(i, j) >= 0.999
+            S(i, j) = 0;
+        else
+            S(i, j) = Chroma(i, j) / (1 - abs(2 * L(i, j) - 1));
+        end
+    end
+end
+
+subplot(2,2,1), imshow(img), title('RGB - Original')
+subplot(2,2,2), imshow(H / 360), title('Hue (H)')
+subplot(2,2,3), imshow(S), title('Saturation (S)')
+subplot(2,2,4), imshow(L), title('Lightness (L)')
+
+%zad2
+clear;
+img = imread('rzeczka.jpg');
+obraz = double(img) / 255;
+
+R_zeskalowany = obraz(:, :, 1);
+G_zeskalowany = obraz(:, :, 2);
+B_zeskalowany = obraz(:, :, 3);
+
+function wynik = porownanie_v_2_z_mnoznikiem(obraz_stary, obraz_nowy, mnoznik)
+    wynik = przytnij_zakres((obraz_nowy - obraz_stary) * mnoznik + 127.5);
+end
+function wynik = porownanie_v_PS_z_mnoznikiem(obraz_stary, obraz_nowy, mnoznik)
+    roznica = abs(obraz_nowy - obraz_stary);
+    wynik = przytnij_zakres(mnoznik * roznica);
+end
+function wynik = przytnij_zakres(wejscie)
+    wejscie(wejscie < 0) = 0;
+    wejscie(wejscie > 255) = 255;
+
+    wynik = wejscie;
+end
+function [H, S, L] = rgb_to_hsl(R, G, B, img_double)
+
+  MaxRGB = max(img_double, [], 3);
+  MinRGB = min(img_double, [], 3);
+  Chroma = MaxRGB - MinRGB;
+
+  Htemp = zeros(size(Chroma));
+
+  Htemp(Chroma <= 0.001) = 0;
+
+  index = (MaxRGB == R) & (Chroma > 0.001);
+  Htemp(index) = mod((G(index) - B(index)) ./ Chroma(index), 6);
+
+  index = (MaxRGB == G) & (Chroma > 0.001);
+  Htemp(index) = (B(index) - R(index)) ./ Chroma(index) + 2;
+
+  index = (MaxRGB == B) & (Chroma > 0.001);
+  Htemp(index) = (R(index) - G(index)) ./ Chroma(index) + 4;
+
+  H = Htemp * 60;
+  L = (MaxRGB + MinRGB) / 2;
+
+  S = zeros(size(L));
+
+  index = (L > 0.001) & (L < 0.999);
+  S(index) = Chroma(index) ./ (1 - abs(2 * L(index) - 1));
+end
+function [R, G, B] = hsl_to_rgb(H, S, L)
+    chroma = (1 - abs(2 * L - 1)) .* S;
+    x = chroma .* (1 - abs(mod(H / 60, 2) - 1));
+    MinRGB = L - chroma / 2;
+
+    Rtemp = zeros(size(H));
+    Gtemp = zeros(size(H));
+    Btemp = zeros(size(H));
+
+    idx1 = (H >= 0) & (H <= 60);
+    Rtemp(idx1) = chroma(idx1);
+    Gtemp(idx1) = x(idx1);
+    Btemp(idx1) = 0;
+
+    idx2 = (H > 60) & (H <= 120);
+    Rtemp(idx2) = x(idx2);
+    Gtemp(idx2) = chroma(idx2);
+    Btemp(idx2) = 0;
+
+    idx3 = (H > 120) & (H <= 180);
+    Rtemp(idx3) = 0;
+    Gtemp(idx3) = chroma(idx3);
+    Btemp(idx3) = x(idx3);
+
+    idx4 = (H > 180) & (H <= 240);
+    Rtemp(idx4) = 0;
+    Gtemp(idx4) = x(idx4);
+    Btemp(idx4) = chroma(idx4);
+
+    idx5 = (H > 240) & (H <= 300);
+    Rtemp(idx5) = x(idx5);
+    Gtemp(idx5) = 0;
+    Btemp(idx5) = chroma(idx5);
+
+    idx6 = (H > 300) & (H <= 360);
+    Rtemp(idx6) = chroma(idx6);
+    Gtemp(idx6) = 0;
+    Btemp(idx6) = x(idx6);
+
+    R = (Rtemp + MinRGB) * 255;
+    G = (Gtemp + MinRGB) * 255;
+    B = (Btemp + MinRGB) * 255;
+end
+
+[H, S, L] = rgb_to_hsl(R_zeskalowany, G_zeskalowany, B_zeskalowany, obraz);
+
+[R, G, B] = hsl_to_rgb(H, S, L);
+
+obrazek = cat(3, R, G, B) / 255;
+
+porownanie_v_2 = porownanie_v_2_z_mnoznikiem(img, obrazek, 1000000);
+porownanie_v_PS = porownanie_v_PS_z_mnoznikiem(img, obrazek, 1000000);
+
+roznica_modulu = max(abs(obraz(:) - obrazek(:)));
+
+fprintf('Maksymalny moduł różnicy: %f\n', roznica_modulu);
+
+figure;
+
+subplot(1, 2, 1);imshow(porownanie_v_PS);title('porownanie v.PS * 1000000');
+subplot(1, 2, 2);imshow(porownanie_v_2);title('porownanie v.2 * 1000000');
+
+%zad3
+img = imread('rzeczka.jpg'); % lub 'rzeczka_mniejsza.jpg'
+R = double(img(:,:,1)) / 255;
+G = double(img(:,:,2)) / 255;
+B = double(img(:,:,3)) / 255;
+
+% Przetwarzanie z RGB na HSL
+MaxRGB = max(max(R, G), B);
+MinRGB = min(min(R, G), B);
+Chroma = MaxRGB - MinRGB;
+
+% Obliczenie składowych H, S, L
+H = zeros(size(R));
+S = zeros(size(R));
+L = (MaxRGB + MinRGB) / 2;
+
+for i = 1:size(R, 1)
+    for j = 1:size(R, 2)
+        if Chroma(i, j) <= 0.001
+            H(i, j) = 0;
+        elseif MaxRGB(i, j) == R(i, j)
+            H(i, j) = mod((G(i, j) - B(i, j)) / Chroma(i, j), 6);
+        elseif MaxRGB(i, j) == G(i, j)
+            H(i, j) = (B(i, j) - R(i, j)) / Chroma(i, j) + 2;
+        elseif MaxRGB(i, j) == B(i, j)
+            H(i, j) = (R(i, j) - G(i, j)) / Chroma(i, j) + 4;
+        end
+    end
+end
+H = H * 60;
+
+for i = 1:size(R, 1)
+    for j = 1:size(R, 2)
+        if L(i, j) <= 0.001 || L(i, j) >= 0.999
+            S(i, j) = 0;
+        else
+            S(i, j) = Chroma(i, j) / (1 - abs(2 * L(i, j) - 1));
+        end
+    end
+end
+
+% Modyfikacja składowej Hue (odejmowanie 50 i ograniczenie do [0, 360))
+H_modified = H - 50;
+H_modified(H_modified < 0) = H_modified(H_modified < 0) + 360;
+
+% Przetwarzanie HSL (z HUE -50) na RGB
+R2 = zeros(size(R));
+G2 = zeros(size(G));
+B2 = zeros(size(B));
+
+for i = 1:size(H_modified, 1)
+    for j = 1:size(H_modified, 2)
+        C = (1 - abs(2 * L(i, j) - 1)) * S(i, j);
+        X = C * (1 - abs(mod(H_modified(i, j) / 60, 2) - 1));
+        m = L(i, j) - C / 2;
+ 
+        if 0 <= H_modified(i, j) && H_modified(i, j) <= 60
+            R_prime = C; G_prime = X; B_prime = 0;
+        elseif 60 < H_modified(i, j) && H_modified(i, j) <= 120
+            R_prime = X; G_prime = C; B_prime = 0;
+        elseif 120 < H_modified(i, j) && H_modified(i, j) <= 180
+            R_prime = 0; G_prime = C; B_prime = X;
+        elseif 180 < H_modified(i, j) && H_modified(i, j) <= 240
+            R_prime = 0; G_prime = X; B_prime = C;
+        elseif 240 < H_modified(i, j) && H_modified(i, j) <= 300
+            R_prime = X; G_prime = 0; B_prime = C;
+        elseif 300 < H_modified(i, j) && H_modified(i, j) <= 360
+            R_prime = C; G_prime = 0; B_prime = X;
+        end
+
+        % Dodaj minimalny komponent i przeskaluj do zakresu [0, 255]
+        R2(i, j) = (R_prime + m) * 255;
+        G2(i, j) = (G_prime + m) * 255;
+        B2(i, j) = (B_prime + m) * 255;
+    end
+end
+
+% Konwersja na obrazek uint8
+img_modified = cat(3, uint8(R2), uint8(G2), uint8(B2));
+
+% Wyświetlenie oryginału i modyfikacji
+subplot(1,2,1), imshow(img), title('Oryginalny RGB')
+subplot(1,2,2), imshow(img_modified), title('Hue - 50')
+
+%zad4
+clear;
+img = imread('rzeczka.jpg');
+obraz = double(img) / 255;
+
+function [R, G, B] = hsl_to_rgb(H, S, L)
+    chroma = (1 - abs(2 * L - 1)) .* S;
+    x = chroma .* (1 - abs(mod(H / 60, 2) - 1));
+    MinRGB = L - chroma / 2;
+
+    Rtemp = zeros(size(H));
+    Gtemp = zeros(size(H));
+    Btemp = zeros(size(H));
+
+    idx1 = (H >= 0) & (H <= 60);
+    Rtemp(idx1) = chroma(idx1);
+    Gtemp(idx1) = x(idx1);
+    Btemp(idx1) = 0;
+
+    idx2 = (H > 60) & (H <= 120);
+    Rtemp(idx2) = x(idx2);
+    Gtemp(idx2) = chroma(idx2);
+    Btemp(idx2) = 0;
+
+    idx3 = (H > 120) & (H <= 180);
+    Rtemp(idx3) = 0;
+    Gtemp(idx3) = chroma(idx3);
+    Btemp(idx3) = x(idx3);
+
+    idx4 = (H > 180) & (H <= 240);
+    Rtemp(idx4) = 0;
+    Gtemp(idx4) = x(idx4);
+    Btemp(idx4) = chroma(idx4);
+
+    idx5 = (H > 240) & (H <= 300);
+    Rtemp(idx5) = x(idx5);
+    Gtemp(idx5) = 0;
+    Btemp(idx5) = chroma(idx5);
+
+    idx6 = (H > 300) & (H <= 360);
+    Rtemp(idx6) = chroma(idx6);
+    Gtemp(idx6) = 0;
+    Btemp(idx6) = x(idx6);
+
+    R = (Rtemp + MinRGB) * 255;
+    G = (Gtemp + MinRGB) * 255;
+    B = (Btemp + MinRGB) * 255;
+end
+
+function [H, S, L] = rgb_to_hsl(R, G, B, img_double)
+
+  MaxRGB = max(img_double, [], 3);
+  MinRGB = min(img_double, [], 3);
+  Chroma = MaxRGB - MinRGB;
+
+  Htemp = zeros(size(Chroma));
+
+  Htemp(Chroma <= 0.001) = 0;
+
+  index = (MaxRGB == R) & (Chroma > 0.001);
+  Htemp(index) = mod((G(index) - B(index)) ./ Chroma(index), 6);
+
+  index = (MaxRGB == G) & (Chroma > 0.001);
+  Htemp(index) = (B(index) - R(index)) ./ Chroma(index) + 2;
+
+  index = (MaxRGB == B) & (Chroma > 0.001);
+  Htemp(index) = (R(index) - G(index)) ./ Chroma(index) + 4;
+
+  H = Htemp * 60;
+  L = (MaxRGB + MinRGB) / 2;
+
+  S = zeros(size(L));
+
+  index = (L > 0.001) & (L < 0.999);
+  S(index) = Chroma(index) ./ (1 - abs(2 * L(index) - 1));
+end
+
+R_zeskalowany = obraz(:, :, 1);
+G_zeskalowany = obraz(:, :, 2);
+B_zeskalowany = obraz(:, :, 3);
+
+[H, S, L] = rgb_to_hsl(R_zeskalowany, G_zeskalowany, B_zeskalowany, obraz);
+
+S = S .* 3;
+
+[R, G, B] = hsl_to_rgb(H, S, L);
+
+obrazek = cat(3, R, G, B) / 255;
+
+figure;
+
+subplot(1, 2, 1);imshow(obraz);title('org');
+subplot(1, 2, 2);imshow(obrazek);title('Saturation gamma 3');
